@@ -1,0 +1,21 @@
+#campo_minado {
+    max-width: 900px;
+    background-color: silver;
+    border: 1px solid black;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.zona {
+    background-color: gray;
+    box-sizing: border-box;
+    margin: 5px;
+}
+
+.bomb {
+    background-image: url("..img/explosion.png");
+}
+
+.flag {
+    background-image: url("..img/flag.png");
+}
