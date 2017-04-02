@@ -30,7 +30,8 @@ function inicializar(nZonas){
         campo.appendChild(document.createElement("br"));
     }
 
-    distribuirBombas(nZonas);
+    distribuirBombas();
+    contabilizarVizinhosBombados();
 }
 
 function getZona(evento){
@@ -39,9 +40,10 @@ function getZona(evento){
     var posicao = id.split("");
 }
 
-function distribuirBombas(nZonas){
+function distribuirBombas(){
 
-    var bombasRestantes = nZonas * nZonas * 0.50;
+    var nZonas = campoMinado.length;
+    var bombasRestantes = Math.pow(nZonas, 2) * 0.15;
 
     while(bombasRestantes > 0){
         for(var i = 0; i < nZonas; i++){
@@ -58,6 +60,37 @@ function distribuirBombas(nZonas){
             }
         }
     }
+}
+
+function contabilizarVizinhosBombados(){
+
+    var nZonas = campoMinado.length;
+
+    for(var x = 0; x < nZonas; x++){
+        for(var y = 0; y < nZonas; y++){
+
+            var zonaAtual = campoMinado[x][y];
+            var nBombas = 0;
+            for(var i = x -1; i <= x + 1; i++){
+                for(var j = y - 1; j <= y + 1; j++){
+                    if(((x == 0 && i < x) || (x == nZonas - 1 && i > x)) ||
+                      ((y == 0 && j < y) || (y == nZonas - 1 && j > y)) ||
+                      (x == i && y == j)){
+                        continue;
+                    } else {
+                        var zonaVizinha = campoMinado[i][j];
+                        if(zonaVizinha.temBomba){
+                            nBombas++;
+                        }
+                    }
+                }
+            }
+            var zona = document.getElementById("z"+ zonaAtual.x + zonaAtual.y);
+            zonaAtual.vizinhosBombados = nBombas;
+            zona.innerHTML = nBombas;
+        }
+     }
+
 }
 
 function mostrarTudo(){
