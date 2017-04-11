@@ -72,17 +72,14 @@ function distribuirBombas(nivel){
     var bombasRestantes = Math.pow(nZonas, 2) * nivel;
 
     while(bombasRestantes > 0){
-        for(var i = 0; i < nZonas; i++){
-            for(var j = 0; j < nZonas; j++){
-                var random = Math.random();
-                var zonaAtual = campoMinado[i][j];
-                if(random > 0.9 &&  zonaAtual.temBomba == false){
-                    campoMinado[i][j].temBomba = true;
-                    bombasRestantes--;
-                    if(bombasRestantes == 0){
-                        return;
-                    }
-                }
+        var i = parseInt(Math.random() * nZonas);
+        var j = parseInt(Math.random() * nZonas);
+        var zonaAtual = campoMinado[i][j];
+        if(zonaAtual.temBomba == false){
+            campoMinado[i][j].temBomba = true;
+            bombasRestantes--;
+            if(bombasRestantes == 0){
+                return;
             }
         }
     }
@@ -126,7 +123,6 @@ function paraTodoVizinhoValido(zona, funcao){
                 continue;
             } else {
                 var vizinho = campoMinado[i][j];
-                //console.log("[", x, ", ", y, "] [", i, ", ", j, "]");
                 funcao(vizinho);
             }
         }
@@ -148,7 +144,7 @@ function mostrarTudo(){
             if(zonaAtual.temBandeira){
                 zona.className = "zona bandeira";
             } else {
-                zona.innerHTML = zonaAtual.vizinhosBombados;
+//                zona.innerHTML = zonaAtual.vizinhosBombados;
             }
         }
     }
@@ -167,6 +163,6 @@ function Zona(x, y){
 }
 
 window.addEventListener("load", function(){
-    inicializar(20, 0.15);
-//    mostrarTudo();
+    inicializar(20, 0.25);
+    mostrarTudo();
 });
