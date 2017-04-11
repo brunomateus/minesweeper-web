@@ -58,12 +58,21 @@ function revelarZona(zona, bandeira){
         zona.revelado = true;
         if(zona.temBomba){
             zonaClicada.className = "zona bomba";
-            alert("Game Over");
+            gameOver();
         } else {
             zonaClicada.className = "zona";
             zonaClicada.innerHTML = zona.vizinhosBombados;
             revelarVizinhanca(zona);
         }
+    }
+}
+
+function gameOver(){
+    var quadro = document.getElementById("game_over");
+    quadro.style.visibility = "visible";
+    var zonas = document.querySelectorAll(".zona");
+    for(var i in zonas){
+        zonas[i].removeEventListener("click", getZona);
     }
 }
 
@@ -89,9 +98,6 @@ function distribuirBombas(nivel){
         if(zonaAtual.temBomba == false){
             campoMinado[i][j].temBomba = true;
             bombasRestantes--;
-            if(bombasRestantes == 0){
-                return;
-            }
         }
     }
 }
@@ -143,21 +149,22 @@ function paraTodaZona(callback){
 
 }
 
-function mostrarTudo(){
+function mostrarTudo(bombas, numeros, bandeiras){
 
     paraTodaZona(function(zonaAtual){
             var zona = document.getElementById("z-"+ zonaAtual.x + "-" + zonaAtual.y);
-            if(zonaAtual.temBomba){
+            if(zonaAtual.temBomba && bombas){
                 zona.className = "zona bomba";
             }
 
-            if(zonaAtual.temBandeira){
+            if(zonaAtual.temBandeira && bandeiras){
                 zona.className = "zona bandeira";
-            } else {
-//                zona.innerHTML = zonaAtual.vizinhosBombados;
+            } else if(numeros) {
+                    zona.innerHTML = zonaAtual.vizinhosBombados;
             }
 
-    });
+            }
+    );
 }
 
 function Zona(x, y){
@@ -173,5 +180,5 @@ function Zona(x, y){
 
 window.addEventListener("load", function(){
     inicializar(20, 0.25);
-    mostrarTudo();
+    mostrarTudo(true);
 });
