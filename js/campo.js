@@ -97,16 +97,7 @@ function distribuirBombas(nivel){
 }
 
 function contabilizarVizinhosBombados(){
-
-    var nZonas = campoMinado.length;
-
-    for(var x = 0; x < nZonas; x++){
-        for(var y = 0; y < nZonas; y++){
-
-            var zonaAtual = campoMinado[x][y];
-            var nBombas = contabilizarVizinhosZona(zonaAtual);
-        }
-     }
+    paraTodaZona(contabilizarVizinhosZona);
 }
 
 function contabilizarVizinhosZona(zona){
@@ -140,13 +131,21 @@ function paraTodoVizinhoValido(zona, funcao){
     }
 }
 
+function paraTodaZona(callback){
+    var nZonas = campoMinado.length;
+
+    for(var x = 0; x < nZonas; x++){
+        for(var y = 0; y < nZonas; y++){
+            var zonaAtual = campoMinado[x][y];
+            callback(zonaAtual);
+        }
+     }
+
+}
+
 function mostrarTudo(){
 
-
-    for(var i = 0; i < campoMinado.length; i++){
-        for(var j = 0; j < campoMinado[i].length; j++){
-            var zonaAtual = campoMinado[i][j];
-
+    paraTodaZona(function(zonaAtual){
             var zona = document.getElementById("z-"+ zonaAtual.x + "-" + zonaAtual.y);
             if(zonaAtual.temBomba){
                 zona.className = "zona bomba";
@@ -157,9 +156,8 @@ function mostrarTudo(){
             } else {
 //                zona.innerHTML = zonaAtual.vizinhosBombados;
             }
-        }
-    }
 
+    });
 }
 
 function Zona(x, y){
