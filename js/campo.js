@@ -40,19 +40,30 @@ function getZona(evento){
 
     var id = this.id;
     var posicao = id.split("-");
-     revelarZona(campoMinado[posicao[1]][posicao[2]]);
+    var zona = campoMinado[posicao[1]][posicao[2]];
+    revelarZona(campoMinado[posicao[1]][posicao[2]], evento.shiftKey);
 }
 
-function revelarZona(zona){
+function revelarZona(zona, bandeira){
     var zonaClicada = document.getElementById("z-"+zona.x+"-"+zona.y);
 
-    zona.revelado = true;
-    if(zona.temBomba){
-        zonaClicada.className = "zona bomba";
-        alert("Game Over");
-    } else {
-        zonaClicada.innerHTML = zona.vizinhosBombados;
-        revelarVizinhanca(zona);
+    if(bandeira){
+        zona.temBandeira = !zona.temBandeira;
+        if(zona.temBandeira){
+            zonaClicada.className = "zona bandeira";
+        }else{
+            zonaClicada.className = "zona";
+        }
+    } else if(!zona.temBandeira){
+        zona.revelado = true;
+        if(zona.temBomba){
+            zonaClicada.className = "zona bomba";
+            alert("Game Over");
+        } else {
+            zonaClicada.className = "zona";
+            zonaClicada.innerHTML = zona.vizinhosBombados;
+            revelarVizinhanca(zona);
+        }
     }
 }
 
