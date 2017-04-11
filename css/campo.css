@@ -8,6 +8,22 @@
     background-color: red;
 }
 
+#game_over {
+    position:absolute;
+    visibility: hidden;
+    width: 250px;
+    height:200px;
+    top: 25%;
+    left: 25%;
+    box-sizing: border-box;
+    border-radius: 10px;
+    -moz-box-sizing: border-box;
+    background-color: #db0008;
+    text-align: center;
+    z-index: 1;
+    font-size: 2em;
+}
+
 .zona {
     position:absolute;
     box-sizing: border-box;
